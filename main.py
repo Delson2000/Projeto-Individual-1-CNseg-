@@ -1,16 +1,13 @@
 candidatos = [
-    ('candidato 1','e5_t10_p8_s8'),
-    ('candidato 2','e10_t7_p7_s8'),
-    ('candidato 3','e8_t5_p4_s9'),
-    ('candidato 4','e2_t2_p2_s1'),
-    ('candidato 5','e10_t10_p8_s9')
+    ('João','e5_t10_p8_s8'),
+    ('José','e10_t7_p7_s8'),
+    ('Marcos','e8_t5_p4_s9'),
+    ('Marlon','e2_t2_p2_s1'),
+    ('Alex','e10_t10_p8_s9')
 ]
 #função para inserir novos candidatos e suas notas
 def inserir_dados():
     while True:
-        again = input('Deseja inserir un novo candidato? (s ou n)')
-        if again == 'n':
-            break
 
         nome_candidato = input('insira o nome do candidato: ')
 
@@ -22,10 +19,14 @@ def inserir_dados():
         texto_nota = f'e{e}_t{t}_p{p}_s{s}'
         tupla_nota_candidato = (nome_candidato,texto_nota)
         candidatos.append(tupla_nota_candidato)
-    # print(candidatos)
+
+        again = input('Deseja inserir un novo candidato? (s ou n)')
+        if again == 'n':
+            break
     return candidatos
 #Função para achar candidatos de acordo com as notas de corte selecionadas
-def achar_candidato(dict_notas):
+def achar_candidato(candidatos):
+    print()
 
     nota_esperadas = []
     nota_e = int(input('insira a nota esperada na entrevista: '))
@@ -38,9 +39,13 @@ def achar_candidato(dict_notas):
     nota_esperadas.append(nota_p)
     nota_esperadas.append(nota_s)
 
+    dicionario_notas = {}
+    for candidato, notas_str in candidatos:
+        dicionario_notas[candidato] = converter_notas(notas_str)
+
     lista_aptos = []
 
-    for candidato, valor in dict_notas.items():
+    for candidato, valor in dicionario_notas.items():
         nota_esperada = 0
         if valor['e'] >= nota_esperadas[0]:
             nota_esperada += 1
@@ -52,8 +57,26 @@ def achar_candidato(dict_notas):
             nota_esperada += 1
         if nota_esperada == 4:
             lista_aptos.append(candidato)
+
+    candidatos_string = ""
+
+    for candidato in lista_aptos:
+        candidatos_string += candidato + ", "
+
+    #Remover a vírgula e o espaço extras do final da string
+    candidatos_string = candidatos_string[:-2]
+
+    # Verifica se há apenas um candidato
+    if len(lista_aptos) == 1:
+        mensagem = 'O candidato que passou na prova: '
+    elif len(lista_aptos)>1:
+        mensagem = 'Candidatos que passaram na prova: '
+    else:
+        mensagem = 'Nenhum candidato apto'
+
+
     
-    return lista_aptos
+    return print(mensagem,candidatos_string)
 
 #Função para converter a string de notas em um dicionário
 def converter_notas(nota_str):
@@ -65,31 +88,40 @@ def converter_notas(nota_str):
 
 
 #Inserir novos candidatos e suas notas
-inserir_dados()
+primeira_vez = True
+while True:
+    if primeira_vez:
+        opcao = input("""
+        Bem vindo a Consulta, inserção de dados ou seleção de candidatos aptos a uma nota que você preferir
+        O que deseja fazer?
+        1 - Inserir um novo candidato
+        2 - Selecionar candidato a partir de notas definidas por você
+        3 - Consultar lista de candidatos
+        4 - Fechar Programa
+        """)
+    primeira_vez = False
 
-#Criar o dicionário de notas
-dicionario_notas = {}
-for candidato, notas_str in candidatos:
-    dicionario_notas[candidato] = converter_notas(notas_str)
+    if opcao == '1':
+        print('Você Deseja cadastrar um candidato ')
+        inserir_dados()
+    if opcao == '2':
+        print('Você Deseja selecionar um candidato ')
+        achar_candidato(candidatos)
 
-#Visualizar o dicionario de notas    
-print(dicionario_notas)
+    if opcao == '3':
+        print('Lista de candidados e suas notas')
+        print(candidatos)
 
-aptos = achar_candidato(dicionario_notas)
+    if opcao == '4':
+        break
 
-candidatos_string = ""
+    opcao = input("""
+        O que deseja fazer?
+        1 - Inserir um novo candidato
+        2 - Selecionar candidato a partir de notas definidas por você
+        3 - Consultar lista de candidatos
+        4 - Fechar Programa
+        """)
 
-for candidato in aptos:
-    candidatos_string += candidato + ", "
 
-#Remover a vírgula e o espaço extras do final da string
-candidatos_string = candidatos_string[:-2]
 
-# Verifica se há apenas um candidato
-if len(aptos) == 1:
-    mensagem = 'O candidato que passou na prova foi: '
-elif len(aptos)>1:
-    mensagem = 'Os candidatos que passaram na prova foram: '
-else:
-    mensagem = 'Nenhum candidato apto'
-print(mensagem,candidatos_string)
