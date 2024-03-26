@@ -55,7 +55,7 @@ def achar_candidato(dict_notas):
     
     return lista_aptos
 
-# Função para converter a string de notas em um dicionário
+#Função para converter a string de notas em um dicionário
 def converter_notas(nota_str):
     notas_dict = {}
     notas_str_split = nota_str.split('_')
@@ -64,15 +64,27 @@ def converter_notas(nota_str):
     return notas_dict
 
 
-# Inserir novos candidatos e suas notas
+#Inserir novos candidatos e suas notas
 inserir_dados()
 
-# Criar o dicionário de notas
+#Criar o dicionário de notas
 dicionario_notas = {}
 for candidato, notas_str in candidatos:
     dicionario_notas[candidato] = converter_notas(notas_str)
+
+#Visualizar o dicionario de notas    
 print(dicionario_notas)
 
 print(dicionario_notas['candidato 2']['e'])
 
-print(achar_candidato(dicionario_notas))
+aptos = achar_candidato(dicionario_notas)
+
+candidatos_string = ""
+
+for candidato in aptos:
+    candidatos_string += candidato + ", "
+
+#Remover a vírgula e o espaço extras do final da string
+candidatos_string = candidatos_string[:-2]
+
+print('Os candidatos que foram passaram nas provas foram: ',candidatos_string)
