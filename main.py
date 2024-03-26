@@ -75,8 +75,6 @@ for candidato, notas_str in candidatos:
 #Visualizar o dicionario de notas    
 print(dicionario_notas)
 
-print(dicionario_notas['candidato 2']['e'])
-
 aptos = achar_candidato(dicionario_notas)
 
 candidatos_string = ""
@@ -87,4 +85,11 @@ for candidato in aptos:
 #Remover a vírgula e o espaço extras do final da string
 candidatos_string = candidatos_string[:-2]
 
-print('Os candidatos que foram passaram nas provas foram: ',candidatos_string)
+# Verifica se há apenas um candidato
+if len(aptos) == 1:
+    mensagem = 'O candidato que passou na prova foi: '
+elif len(aptos)>1:
+    mensagem = 'Os candidatos que passaram na prova foram: '
+else:
+    mensagem = 'Nenhum candidato apto'
+print(mensagem,candidatos_string)
