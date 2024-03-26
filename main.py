@@ -21,8 +21,15 @@ def inserir_dados():
         candidatos.append(tupla_nota_candidato)
 
         again = input('Deseja inserir un novo candidato? (s ou n)')
+        while True:
+            if again == 'n':
+                break
+            elif again == 's':
+                break
+            else:
+                again = input('Deseja inserir un novo candidato? (s ou n)')
         if again == 'n':
-            break
+                break
     return candidatos
 #Função para achar candidatos de acordo com as notas de corte selecionadas
 def achar_candidato(candidatos):
@@ -77,7 +84,6 @@ def achar_candidato(candidatos):
 
     
     return print(mensagem,candidatos_string)
-
 #Função para converter a string de notas em um dicionário
 def converter_notas(nota_str):
     notas_dict = {}
@@ -85,7 +91,6 @@ def converter_notas(nota_str):
     for item in notas_str_split:
         notas_dict[item[0]] = int(item[1:])
     return notas_dict
-
 
 #Inserir novos candidatos e suas notas
 primeira_vez = True
@@ -104,13 +109,15 @@ while True:
     if opcao == '1':
         print('Você Deseja cadastrar um candidato ')
         inserir_dados()
+
     if opcao == '2':
         print('Você Deseja selecionar um candidato ')
         achar_candidato(candidatos)
 
     if opcao == '3':
         print('Lista de candidados e suas notas')
-        print(candidatos)
+        for candidato in candidatos:
+            print(candidato[0]+':',candidato[1])
 
     if opcao == '4':
         break
